@@ -919,28 +919,28 @@
       <div class="exp-details">
         <div class="exp-details-inner">
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Global Account Ingestion & Data Management</div>
+            <div class="exp-detail-heading">Global Account Ingestion & Account Data Management</div>
             <ul class="exp-detail-list">
-              <li>Optimized the account ingestion process by architecting a streamlined data mapping and enrichment methodology adopted globally across the Revenue Operations vertical — enabling ingestion of tens of thousands of accounts into Salesforce and Pigment.</li>
+              <li>Optimized the account ingestion process by architecting a streamlined data mapping and enrichment methodology which was implemented and ultimately adopted globally across the Revenue Operations vertical. The data from prospective accounts was analyzed prior to ingestion and those accounts were checked against the existing account table in SFDC—and also corroborated against third-party databases—to ensure that any existing hierarchical (parent-child) relationships between accounts were identified and accurately maintained. The methodology utilized key account data (e.g., geographic location, market segment, industry, employee count, revenue, etc.) as criteria to ascertain crucial account details, such as: identifying the proper sales territory, assigning ownership to the appropriate account executive, flagging any missing or incorrect field data, populating custom account fields for triaging/queues/reporting/lists/analysis purposes, etc. I met with stakeholders to gather requirements, designed, built, tested (including QA and UAT), and deploy the mapping methodology from the ground up, directly enabling the ingestion of tens of thousands of viable accounts into Salesforce and Pigment (Pigment being Snowflake's source of truth for customer/account data).</li>
               <li>Implemented a multi-tiered account hierarchy framework with region-specific sales territory assignment logic.</li>
-              <li>Replaced a previously ad hoc, manual, non-standardized process with a custom GPU-enabled account-finder system querying third-party databases and the SFDC account database.</li>
-              <li>Advanced the methodology to near-full automation by compiling assignment mapping tables into Snowhouse, enabling the entire territory workflow to execute via advanced SQL queries.</li>
+              <li>Replaced a previously ad hoc, manual, non-standardized process for account ingestion across all regions—which leadership had previously assessed to be impractical to revamp—optimizing the ad hoc account ingestion process with a custom GPU-enabled account-finder system which queried an array of third-party account databases, as well as our own account database in SFDC. This enabled ad-hoc account creation to occur at a rate, and with a level of efficiency that was previously infeasible.</li>
+              <li>Advanced the account enrichment methodology (which I developed and implemented) to near-full automation by compiling account assignment mapping tables for all regions directly into Snowhouse (Snowflake's internal data platform), enabling the entire territory assignment workflow to be executed via advanced SQL queries entirely within the Snowhouse environment.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
             <div class="exp-detail-heading">Data Engineering, AI & Advanced Analytics</div>
             <ul class="exp-detail-list">
-              <li>Authored and executed advanced SQL queries in Snowhouse for data analysis, account ingestion, and operational reporting.</li>
-              <li>Built a custom internal-facing LLM chatbot in Gemini — leveraging NotebookLM and additional AI tools — creating a comprehensive, queryable knowledge base for the team.</li>
-              <li>Performed large-scale account enrichment using Snowflake's GPU infrastructure and cloud-based LLM tools, D&B Hoovers, ZoomInfo, and other third-party data sources; developed Tableau dashboards for quota and territory operations.</li>
+              <li>Authored and executed advanced SQL queries in Snowhouse for data analysis, account ingestion, and operational reporting—generating structured datasets and exporting results as CSVs for downstream use across multiple workflows.</li>
+              <li>Built a custom internal-facing LLM chatbot in Gemini—leveraging NotebookLM and additional AI tools—by collecting, compiling, and structuring meeting transcripts, SOP documentation, and SQL-generated data tables into a comprehensive, queryable knowledge base for the team.</li>
+              <li>Performed large-scale account enrichment using Snowflake's proprietary GPU infrastructure and cloud-based LLM tools, as well as D&B Hoovers / Dun & Bradstreet, ZoomInfo, and other third-party data sources; developed Tableau dashboards and data visualizations to support quota and territory operations and leadership reporting.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Account Data Management & Data Quality</div>
+            <div class="exp-detail-heading">Account Data Management & Data Quality Operations</div>
             <ul class="exp-detail-list">
-              <li>Managed end-to-end account data operations — ingestion, enrichment, hierarchy verification, parent-child and subsidiary relationship mapping, and data cleaning across Salesforce and Pigment.</li>
-              <li>Planned and oversaw migration of account ingestion processes from AMER and regional teams to the Data Quality team (overseas/India), coordinating cross-functional alignment.</li>
-              <li>Led live training sessions with Data Quality stakeholders across global regions; authored tailored SOP documentation for regional adoption and long-term continuity.</li>
+              <li>Managed end-to-end account data operations—ingestion, enrichment, hierarchy verification, parent-child and subsidiary relationship mapping, and data cleaning across Salesforce and Pigment; authored comprehensive SOP documentation covering Account Data Management, Account Creation Requests, and Account Ingestion processes.</li>
+              <li>Planned, organized, and oversaw the migration and centralization of account ingestion processes from AMER and other regional teams to the Data Quality team (overseas/India)—coordinating cross-functional alignment to standardize and scale global account operations.</li>
+              <li>Scheduled and led a series of live training sessions with Data Quality team stakeholders across global regions; authored tailored SOP documentation supporting the account creation and ingestion process migration for regional adoption and long-term continuity.</li>
             </ul>
           </div>
         </div>
@@ -963,34 +963,52 @@
       <div class="exp-details">
         <div class="exp-details-inner">
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Salesforce Implementation & Integration</div>
+            <div class="exp-detail-heading">Product/App/Technology Research and Recommendation</div>
             <ul class="exp-detail-list">
-              <li>Led the successful rollout of Salesforce Sales Cloud, Service Cloud, and Marketing Cloud, ensuring smooth implementation and integration.</li>
-              <li>Managed integration of SFDC products and third-party apps including CPQ, Pardot, Jira, Confluence, Hubspot, Gong, Slack, Tableau, Einstein, Cloudingo, and Conga.</li>
+              <li>Conducted comprehensive research and testing to evaluate and recommend products and solutions for business needs.</li>
+              <li>Collaborated with stakeholders and executives to gather requirements and prescribe suitable products, solutions, and processes.</li>
+              <li>Interfaced with third-party vendors and built strong relationships to facilitate product purchases and contractor hiring.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
             <div class="exp-detail-heading">Marketing Campaign Development</div>
             <ul class="exp-detail-list">
               <li>Strategized with stakeholders to define campaign requirements and develop effective marketing strategies.</li>
-              <li>Implemented advanced Pardot automations for lead scoring and customer data capture.</li>
-              <li>Designed engaging email templates, customer-facing forms, web experiences, Experience Sites, and chatbots.</li>
+              <li>Implemented advanced automations in Pardot to assign accurate lead scores and optimize lead/customer data capture.</li>
+              <li>Designed and executed engaging email templates, customer-facing forms, web experiences, Experience Sites, and chatbots to enhance data capture.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Configuration & Optimization</div>
+            <div class="exp-detail-heading">Development and Release Management</div>
             <ul class="exp-detail-list">
-              <li>Configured and optimized Salesforce orgs for B2B marketing, Sales Operations, and customer-facing tools including apps, sites, chatbots, and live support.</li>
-              <li>Optimized Sales Cloud and Opportunity pipeline for lead generation, conversion, and increasing closed/won rates.</li>
-              <li>Developed Service Cloud with Case Management, extensive Flow automations, approvals systems, entitlements, and custom code.</li>
-            </ul>
-          </div>
-          <div class="exp-detail-group">
-            <div class="exp-detail-heading">Development & Release Management</div>
-            <ul class="exp-detail-list">
-              <li>Coordinated development and sprint release cycles — managing configuration, deployment of new features, optimizations, and updates.</li>
+              <li>Coordinated the development and sprint release cycles, managing configuration, deployment of new features, optimizations, and updates.</li>
               <li>Successfully managed weekly, bi-weekly, and monthly releases, overseeing all aspects of release/change management communication.</li>
               <li>Maintained and updated documentation to support the user base and drive adoption of new features.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Salesforce Implementation and Integration</div>
+            <ul class="exp-detail-list">
+              <li>Led the successful roll-out of Salesforce Sales Cloud, Service Cloud, and Marketing Cloud, ensuring smooth implementation and integration.</li>
+              <li>Managed the integration of various SFDC products and third-party applications, including Salesforce CPQ, Pardot, Jira, Confluence, Hubspot, Gong, Slack, Tableau, Einstein, Cloudingo, and Conga.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Salesforce Configuration and Optimization</div>
+            <ul class="exp-detail-list">
+              <li>Configured and optimized Salesforce orgs for B2B marketing, Sales Operations processes, and customer-facing tools, including apps, sites, chatbots, and live support.</li>
+              <li>Analyzed current processes, systems, and business practices and identified opportunities for improvement or optimization.</li>
+              <li>Optimized Sales Cloud and Opportunity pipeline for lead generation, lead conversion, and increasing the percentage of closed/won opportunities.</li>
+              <li>Configured Salesforce CPQ and Marketing Cloud to meet dynamic business requirements and ensure accessible campaign metrics.</li>
+              <li>Worked closely with stakeholders to gather requirements for Pardot implementation and configuration.</li>
+              <li>Developed and configured Service Cloud, including Case Management and customer-facing assets with extensive Flow automations, approvals systems, entitlements, and custom code.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Developed and Maintained Documentation</div>
+            <ul class="exp-detail-list">
+              <li>Consistently developed and updated documentation for all new and existing features and solutions.</li>
+              <li>Created team-specific or department-specific user-facing documentation to help drive adoption of platform features and facilitate the onboarding process for new users.</li>
             </ul>
           </div>
         </div>
@@ -1013,30 +1031,45 @@
       <div class="exp-details">
         <div class="exp-details-inner">
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Customer-Facing Web & Email Experiences</div>
+            <div class="exp-detail-heading">Customer-Facing Web and Email Experiences</div>
             <ul class="exp-detail-list">
               <li>Designed and implemented customer-facing web pages, email templates, forms, and chatbots, enhancing lead data capture and customer retention.</li>
               <li>Achieved a 25% increase in customer satisfaction within the first quarter through optimized web experiences.</li>
-              <li>Boosted lead creation rates by 15%+ within the initial quarter through effective email list management.</li>
+              <li>Boosted lead creation rates by 15%+ within the initial quarter as Senior Administrator through effective email list management.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Custom Solutions & Feature Development</div>
+            <div class="exp-detail-heading">Sprint Release Coordination</div>
+            <ul class="exp-detail-list">
+              <li>Managed a high volume of sprint release cycles, gathering requirements, developing use cases, and coordinating across various projects and initiatives.</li>
+              <li>Led weekly stakeholder meetings to present and demo release items, provide updates on platform status, and facilitate feedback.</li>
+              <li>Ensured effective release/change management communication with detailed pre- and post-release summaries.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Custom Solutions and Feature Development</div>
             <ul class="exp-detail-list">
               <li>Built and optimized custom solutions including Flow automations, Apex code, Visualforce pages, and Lightning components.</li>
-              <li>Developed a complex algorithm using Apex/SOQL for prioritizing support requests, enhancing efficiency and fairness.</li>
+              <li>Developed a complex algorithm using Apex/SOQL for prioritizing support requests, enhancing support efficiency and fairness.</li>
               <li>Created a custom Record Page using Visualforce to track and display key organizational metrics, integrated with a comprehensive reporting and alert system.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Salesforce Configuration & Integration</div>
+            <div class="exp-detail-heading">Salesforce Configuration and Integration</div>
             <ul class="exp-detail-list">
-              <li>Strategized and executed implementation of Sales Cloud, Service Cloud, Marketing Cloud, and third-party apps (CPQ, Pardot, Jira, HubSpot, Asana, Okta, Conga, Zendesk).</li>
-              <li>Configured environments for B2B marketing, Sales Operations, and customer-facing operations with complex Flow automations and custom code.</li>
+              <li>Strategized and executed the implementation and integration of Salesforce Sales Cloud, Service Cloud, Marketing Cloud, and various third-party applications (e.g., Salesforce CPQ, Pardot, Jira, HubSpot, Asana, Okta, Conga, Jira, Zendesk).</li>
+              <li>Configured Salesforce environments for B2B marketing, Sales Operations, and customer-facing operations, including complex Flow automations, custom code solutions, web experiences.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Large-Scale Initiatives & Migrations</div>
+            <div class="exp-detail-heading">User and System Management, Triage, and Support</div>
+            <ul class="exp-detail-list">
+              <li>Administered day-to-day support for a global user base of nearly 400, including user setup, live training, and ad hoc issue resolution.</li>
+              <li>Developed and maintained comprehensive documentation and training materials for company-specific Salesforce processes.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Large-Scale Initiatives and Migration Projects</div>
             <ul class="exp-detail-list">
               <li>Addressed technical debt and migrated automations from Process Builder to Flow.</li>
               <li>Managed data migration projects, including transitioning data storage from Salesforce to Amazon Cloud Storage.</li>
@@ -1044,11 +1077,44 @@
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Reporting, Metrics & Analytics</div>
+            <div class="exp-detail-heading">Product/App/Technology Research and Recommendation</div>
             <ul class="exp-detail-list">
-              <li>Built a custom Apex/Visualforce solution to parse and record daily platform metrics on a custom object — enabling trend tracking and stakeholder reporting.</li>
-              <li>Provided metrics, data analytics, and visualizations via Reports and Dashboards to inform critical business decisions.</li>
-              <li>Streamlined Reporting and consistently cleaned underlying platform data (de-duplication, correction, reconciliation) to ensure data accuracy.</li>
+              <li>Researched, tested, and implemented a variety of apps/products (e.g., Conga Billing, Cloudingo, Workday) based on business requirements.</li>
+              <li>Built relationships with vendors and coordinated product acquisitions and contractor hiring.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Communication and Onboarding</div>
+            <ul class="exp-detail-list">
+              <li>Managed all Salesforce-related communication with users, stakeholders, and the broader company.</li>
+              <li>Oversaw the onboarding of new users in Salesforce and Okta, ensuring a smooth integration and training process.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Platform Security, Standards, and Best Practices</div>
+            <ul class="exp-detail-list">
+              <li>Ensured that the platform adhered to current business/industry security standards and best practices.</li>
+              <li>Monitored SFDC annual releases and product updates.</li>
+              <li>Identified and communicated areas of concern or interest on the platform.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Reporting, Metrics, and Analytics</div>
+            <ul class="exp-detail-list">
+              <li>Tracked and communicated platform metrics on a daily basis via a custom solution that I designed and built using Apex/Visualforce: I built a custom VFP that parsed essential platform metrics and created a daily record on a custom object. This allowed me to track, report, and share platform metrics over time and identify platform usage trends.</li>
+              <li>Provided metrics, data analytics, and data visualizations via Reports and Dashboards to inform critical business decisions.</li>
+              <li>Simplified and streamlined Reporting and consistently analyzed and cleaned underlying platform data (via record de-duplication, data correction, adding missing data, reconciling discrepancies, etc.) to ensure accuracy of data across the platform and the business' systems.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Technical Proficiencies</div>
+            <ul class="exp-detail-list">
+              <li>Flow Builder, Process Builder, SQL, Visualforce, Apex, JavaScript, and custom validation/formula development.</li>
+              <li>Sales Cloud, Service Cloud, and Marketing Cloud rollout, optimization, and maintenance.</li>
+              <li>Pardot, Email Campaigns, Email Templates, Automation, Lead Score Assignment, Customer-facing forms/web pages for data capture, Progressive Profiling, creating Dynamic Content.</li>
+              <li>Report/Dashboard requirement gathering, building, and training/demonstration/presentation.</li>
+              <li>Excel (Microsoft 365), Visio, Photoshop (Adobe Creative Suite), Jira, Confluence, Hubspot, Asana.</li>
+              <li>Web development/building and optimizing web pages/data and server management with Javascript, HTML, and CSS.</li>
             </ul>
           </div>
         </div>
@@ -1071,18 +1137,37 @@
       <div class="exp-details">
         <div class="exp-details-inner">
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Stakeholder Collaboration & Solutions</div>
+            <div class="exp-detail-heading">Stakeholder Collaboration and Solution Implementation</div>
             <ul class="exp-detail-list">
               <li>Partnered with business stakeholders to identify needs and recommend effective Salesforce solutions.</li>
               <li>Coordinated post-rollout configuration and optimization of the Salesforce org.</li>
-              <li>Gathered and reviewed requirements to determine feasibility and impact of feature requests — recommending alternative or optimized solutions when necessary.</li>
+              <li>Gathered and reviewed requirements to determine the feasibility and potential impact of a given feature request—recommending/prescribing alternative or optimized solutions when necessary.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Digital Marketing & Pardot</div>
+            <div class="exp-detail-heading">Digital Marketing Optimization</div>
             <ul class="exp-detail-list">
               <li>Worked with Digital Marketing teams to enhance lead generation through email and web channels using Pardot.</li>
-              <li>Configured Salesforce and Pardot to align with business requirements, optimizing for B2B marketing automation.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Salesforce and Pardot Configuration</div>
+            <ul class="exp-detail-list">
+              <li>Configured Salesforce and Pardot to align with business requirements, optimizing the instance for B2B marketing automation.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Data Management and Reporting</div>
+            <ul class="exp-detail-list">
+              <li>Managed data integrity through cleaning, bulk inserts, and updates.</li>
+              <li>Developed and maintained comprehensive reports and dashboards to support business insights.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">User Onboarding and Training</div>
+            <ul class="exp-detail-list">
+              <li>Oversaw the onboarding of users and teams into Salesforce, including migration of existing processes and data.</li>
+              <li>Gathered requirements and built use cases to tailor Salesforce solutions for different departments.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
@@ -1093,11 +1178,20 @@
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Data Management & Platform Operations</div>
+            <div class="exp-detail-heading">Cloud Configuration and Development</div>
             <ul class="exp-detail-list">
-              <li>Managed data integrity through cleaning, bulk inserts, and updates.</li>
-              <li>Developed and maintained comprehensive reports and dashboards to support business insights.</li>
-              <li>Oversaw user onboarding, including migration of existing processes and data.</li>
+              <li>Configured and developed solutions across Sales Cloud, Service Cloud, and Marketing Cloud to meet business needs.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Day-to-day Platform Management</div>
+            <ul class="exp-detail-list">
+              <li>Tracked vital platform metrics.</li>
+              <li>Ran adoption Reports and Dashboards.</li>
+              <li>Tracked platform usage limits and user license counts/availability.</li>
+              <li>Set-up and activated new user records and offered org-specific orientation/training materials to new users.</li>
+              <li>Deactivated inactive user accounts.</li>
+              <li>Triaged and responded to incoming and in-progress support requests and feature requests.</li>
             </ul>
           </div>
         </div>
@@ -1127,34 +1221,91 @@
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">CRM Rollout & Migration</div>
+            <div class="exp-detail-heading">SFDC Rollout and Migration</div>
             <ul class="exp-detail-list">
               <li>Led the company-wide transition from a proprietary, Excel-based CRM to Salesforce.</li>
               <li>Migrated processes and data to a Salesforce instance tailored to the diverse needs of a global media conglomerate.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Sales Cloud & CPQ Implementation</div>
+            <div class="exp-detail-heading">Sales Cloud and Salesforce CPQ Implementation</div>
             <ul class="exp-detail-list">
               <li>Focused on sales, lead generation, and Opportunity pipeline in Sales Cloud.</li>
               <li>Collaborated with Sales Ops and Finance to implement and configure Salesforce CPQ, enabling dynamic pricing and sales flexibility.</li>
-              <li>Implemented a robust approval system ensuring Sales/Sales Ops flexibility without sacrificing accountability.</li>
+              <li>Implemented a robust approval system to ensure that Sales/Sales Ops had flexibility without sacrificing accountability.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Cross-Departmental Coordination</div>
+            <div class="exp-detail-heading">Stakeholder Collaboration and Adoption</div>
             <ul class="exp-detail-list">
-              <li>Worked closely with stakeholders across Sales Ops, Finance, Accounting, IT, HR, Marketing, S&P, Legal, etc. to coordinate, strategize, test, and deploy features.</li>
-              <li>Managed large-scale integrations with third-party apps including Netsuite and Workday.</li>
-              <li>Single-handedly managed the Salesforce Support Helpdesk for the global, company-wide user base.</li>
+              <li>Engaged with engineering, business units, and team members to gather requirements, implement solutions, and drive adoption.</li>
+              <li>Conducted daily meetings with stakeholders across multiple departments/business units to discuss new ideas, test features, and strategize long-term goals.</li>
+              <li>Identified and maintained relationships with stakeholders across the entire business.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Documentation & Compliance</div>
+            <div class="exp-detail-heading">Cross-Departmental Coordination and Collaboration</div>
+            <ul class="exp-detail-list">
+              <li>Worked closely with stakeholders across numerous departments (including Sales Ops, Finance, Accounting, IT/Information Systems, HR, Marketing, S&P, Legal, etc.) to coordinate, strategize, test, and deploy a wide array of features and solutions.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">App Integration and Coordination</div>
+            <ul class="exp-detail-list">
+              <li>Managed large-scale integrations with third-party apps, including Netsuite and Workday.</li>
+              <li>Coordinated with HR, Finance, and Accounting to gather requirements, evaluate solutions, and recommend integrations.</li>
+              <li>Coordinated large-scale data migration.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Feature Development and Support</div>
+            <ul class="exp-detail-list">
+              <li>Compiled user feedback and formulated use cases for new features.</li>
+              <li>Configured Atlassian Jira as a support helpdesk and Confluence for project management.</li>
+              <li>Managed the sprint release lifecycle, from feature development to deployment.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Helpdesk Management</div>
+            <ul class="exp-detail-list">
+              <li>Single-handedly managed the Salesforce Support Helpdesk for a global, company-wide user base.</li>
+              <li>Provided timely support, adhering to a 24-hour SLA, and addressed issues ranging from user access to platform problems.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Data and Metadata Management</div>
+            <ul class="exp-detail-list">
+              <li>Oversaw data maintenance, including object-level and record-level updates, bulk operations, and data cleaning.</li>
+              <li>Implemented data validation and automation updates to resolve issues and maintain data integrity.</li>
+              <li>Tracked, analyzed, and interpreted data to inform stakeholders and guide business decisions.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Documentation, Compliance, and Training</div>
             <ul class="exp-detail-list">
               <li>Authored and maintained comprehensive documentation and training materials.</li>
               <li>Developed an internal website with a detailed library of Salesforce-related documentation for user access.</li>
-              <li>Managed sprint release lifecycle from feature development to deployment.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Onboarding and Reporting</div>
+            <ul class="exp-detail-list">
+              <li>Managed onboarding of new hires into Salesforce and Okta.</li>
+              <li>Built and maintained custom reports and dashboards, addressing complex requirements.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Communication and Status Updates</div>
+            <ul class="exp-detail-list">
+              <li>Provided regular status updates on ongoing projects and issues.</li>
+              <li>Managed Salesforce-related communications with stakeholders and the global user base.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Role Hierarchy / Profile Creation and Management</div>
+            <ul class="exp-detail-list">
+              <li>Identified and met with stakeholders when onboarding new teams to establish and implement Role hierarchies and Profile assignment.</li>
+              <li>Ensured Roles and Profiles remained up-to-date and reflected the needs of onboarded teams, which in turn ensured approval and accountability features remained optimally functional.</li>
             </ul>
           </div>
         </div>
@@ -1185,18 +1336,32 @@
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Salesforce Administration</div>
+            <div class="exp-detail-heading">IT Hardware Solutions</div>
             <ul class="exp-detail-list">
-              <li>Administered and developed Salesforce.com, including data migration from third-party servers.</li>
-              <li>Configured Sales Cloud, managed initial team onboarding and user provisioning, and implemented automations and validations.</li>
+              <li>Planned, researched, and recommended IT hardware solutions for commercial and office spaces.</li>
+              <li>Installed and configured hardware to meet business needs and optimize performance.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Graphic & Media Design</div>
+            <div class="exp-detail-heading">Salesforce Administration and Development</div>
+            <ul class="exp-detail-list">
+              <li>Administered and developed Salesforce.com, including data migration from third-party servers to Salesforce.</li>
+              <li>Configured Sales Cloud, managed initial team onboarding and user provisioning, and implemented automations, validations, and data migration.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Feature Development and Client Collaboration</div>
+            <ul class="exp-detail-list">
+              <li>Developed, implemented, and tested new features in collaboration with clients.</li>
+              <li>Gathered requirements, brainstormed solutions, and demonstrated features and updates to clients.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Graphic and Media Design</div>
             <ul class="exp-detail-list">
               <li>Designed and prepared graphic, video, photo, and media content for web publishing.</li>
               <li>Developed logos, graphics, brand themes, and style guides.</li>
-              <li>Proficient in Adobe Creative Suite (Photoshop, Illustrator, After Effects).</li>
+              <li>Demonstrated proficiency in Adobe Creative Suite (Photoshop, Illustrator, After Effects) as a graphic designer, illustrator, and artist.</li>
             </ul>
           </div>
         </div>
@@ -1219,15 +1384,26 @@
       <div class="exp-details">
         <div class="exp-details-inner">
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Sales & Lead Generation</div>
+            <div class="exp-detail-heading">Managed Membership Sales</div>
             <ul class="exp-detail-list">
               <li>Closed multiple sales daily, consistently achieving and exceeding sales targets.</li>
-              <li>Interfaced with potential customers to generate and follow up on leads; successfully converted leads into opportunities.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Lead Generation and Conversion</div>
+            <ul class="exp-detail-list">
+              <li>Interfaced with potential customers to generate and follow up on leads.</li>
+              <li>Successfully converted leads into opportunities and closed numerous sales.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Membership Retention</div>
+            <ul class="exp-detail-list">
               <li>Fostered strong relationships with members to enhance retention and satisfaction.</li>
             </ul>
           </div>
           <div class="exp-detail-group">
-            <div class="exp-detail-heading">Billing & Data Management</div>
+            <div class="exp-detail-heading">Billing and Customer Data Management</div>
             <ul class="exp-detail-list">
               <li>Set up and managed billing processes, ensuring accurate and timely collection of customer information.</li>
               <li>Maintained and updated customer data and ensured data integrity.</li>
