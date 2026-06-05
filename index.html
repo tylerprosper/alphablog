@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Direction 1 — Obsidian</title>
+<style>
+  /* ── HELVETICA NEUE MEDIUM ── */
+  @font-face {
+    font-family: 'HN';
+    src: url('fonts/HelveticaNeue-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --border: #1e1e1e;
+    --accent: #e8ff47;
+    --text-primary: #f0f0f0;
+    --text-secondary: #9B9B9B;
+    --text-muted: #444;
+    --mono: 'Courier New', Courier, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--sans);
+    overflow-x: hidden;
+    overscroll-behavior: none;
+  }
+
+  /* System cursor hidden via JS-generated transparent 32×32 PNG —
+     see <script> block for the runtime injection that guarantees
+     a valid image for every browser. CSS fallback below is just
+     the initial baseline until JS runs. */
+  html, body, *, *::before, *::after {
+    cursor: none !important;
+  }
+
+  .cursor-polygon {
+    position: fixed;
+    top: 0; left: 0;
+    width: 22px; height: 22px;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  .cursor-ring {
+    position: fixed;
+    width: 26px; height: 26px;
+    border: 1px solid rgba(232,255,71,0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+    will-change: left, top, width, height;
+    backface-visibility: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(8,8,8,0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeDown 0.6s ease 0.2s forwards;
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s, background 0.2s;
+    padding: 6px 10px;
+  }
+
+  .nav-links a:hover {
+    color: #000000;
+    background: #E9FE47;
+  }
+
+  .nav-cta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 8px 18px;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: opacity 0.2s;
+  }
+
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ─── HERO ─── */
+  #hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 120px 48px 100px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(255,255,255,0.20) 1px, transparent 1px);
+    background-size: 28px 28px;
+    opacity: 0;
+    animation: gridFade 2s ease forwards;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 20%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,255,71,0.06) 0%, transparent 70%);
+    animation: glowPulse 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes glowPulse {
+    from { transform: scale(1); opacity: 0.6; }
+    to { transform: scale(1.15); opacity: 1; }
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.5s forwards;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-name {
+    font-family: 'HN', helvetica, arial, sans-serif;
+    font-size: clamp(64px, 10vw, 128px);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin-bottom: 30px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.7s forwards;
+  }
+
+  .hero-name span { color: var(--accent); }
+
+  .hero-title {
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--text-secondary);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.9s forwards;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1.1s forwards;
+  }
+
+  .hero-meta-item {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #9B9B9B;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-meta-item strong {
+    display: block;
+    color: #ffffff;
+    font-size: 13px;
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 48px; right: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.5s forwards;
+  }
+
+  .hero-scroll span {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    writing-mode: vertical-lr;
+    text-transform: uppercase;
+  }
+
+  .scroll-line {
+    width: 2px;
+    height: 60px;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated fill: gradient runs along length only — uniform 2px width at all times */
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #F968A0;
+    animation: scrollFill 2.2s ease-in-out infinite;
+  }
+
+  @keyframes scrollFill {
+    0%   { transform: translateY(100%);  opacity: 0; }
+    8%   { transform: translateY(100%);  opacity: 1; }
+    72%  { transform: translateY(0%);    opacity: 1; }
+    90%  { transform: translateY(0%);    opacity: 0; }
+    100% { transform: translateY(0%);    opacity: 0; }
+  }
+
+  /* ─── SECTION ─── */
+  section {
+    padding: 120px 48px;
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 64px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #about .section-label,
+  #experience .section-label {
+    color: #9B9B9B;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 80px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    padding-top: 60px;
+  }
+
+  #about .section-label {
+    margin-bottom: 32px;
+  }
+
+  #about .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-headline {
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .about-headline em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .about-body p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .stat {
+    padding: 24px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition: border-color 0.3s;
+  }
+
+  .stat:hover { border-color: var(--accent); }
+
+  .stat-number {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+    font-family: var(--mono);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ─── EXPERIENCE ─── */
+  #experience .exp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .exp-item {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-header {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    gap: 40px;
+    padding: 36px 0;
+    align-items: start;
+    transition: background 0.2s, padding 0.2s, margin 0.2s;
+  }
+
+  .exp-header:hover {
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-left: -16px;
+    margin-right: -16px;
+    background: var(--surface);
+  }
+
+  .exp-company {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    transition: color 0.2s;
+  }
+
+  .exp-header:hover .exp-company { color: var(--accent); }
+
+  .exp-role {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: var(--mono);
+  }
+
+  .exp-location {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--mono);
+    margin-top: 4px;
+  }
+
+  .exp-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  .exp-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .exp-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 12px;
+    background: none;
+    border: 1px solid rgba(232,255,71,0.25);
+    padding: 6px 14px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .exp-toggle:hover {
+    border-color: var(--accent);
+    background: rgba(232,255,71,0.06);
+  }
+
+  .exp-toggle-arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-size: 12px;
+  }
+
+  .exp-item.expanded .exp-toggle-arrow {
+    transform: rotate(180deg);
+  }
+
+  .exp-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.3s ease;
+    padding: 0 0 0 0;
+  }
+
+  .exp-item.expanded .exp-details {
+    padding: 0 0 36px 0;
+  }
+
+  .exp-details-inner {
+    padding: 24px 32px;
+    border-left: 2px solid var(--accent);
+    margin-left: 16px;
+    background: rgba(17,17,17,0.6);
+  }
+
+  .exp-detail-group {
+    margin-bottom: 24px;
+  }
+
+  .exp-detail-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .exp-detail-heading {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .exp-detail-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .exp-detail-list li {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+
+  .exp-detail-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ─── SKILLS STRIP ─── */
+  .skills-strip {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .skills-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 60s linear infinite;
+    width: max-content;
+  }
+
+  .skill-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #ffffff;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0 0 0 28px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .skill-tag::after {
+    content: '•';
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .logo-strip {
+    padding: 30px 50px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 0;
+    width: 100%;
+    min-height: calc(clamp(18px, 3.3vw, 38px) * 0.65);
+  }
+
+  .logo-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-width: 0;
+    height: 100%;
+    align-self: center;
+  }
+
+  .logo-cell img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: calc(min(14vw, 170px) * 0.65);
+    max-height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(0.92);
+    opacity: 0.82;
+  }
+
+  .logo-img--randstad,
+  .logo-img--compass {
+    max-height: 72%;
+  }
+
+  .logo-img--heraldist {
+    max-height: 41%;
+    filter: none;
+    opacity: 1;
+  }
+
+  .logo-img--ymca {
+    transform: scale(0.8);
+    transform-origin: center;
+  }
+
+  .logo-cell img:hover {
+    opacity: 1;
+    filter: brightness(0) invert(0.98);
+  }
+
+  /* ─── GPU COMPOSITING — only promote elements that truly need it
+     (animated elements). Removed blanket translateZ(0) that was creating
+     excessive compositor layer boundaries causing cursor flicker. ─── */
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-links {
+    position: absolute;
+    right: 48px;
+  }
+
+  .footer-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ─── DIRECTION BADGE ─── */
+  .direction-badge {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    z-index: 200;
+    font-weight: 700;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes gridFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Scroll-reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- DOM-based custom cursor (immune to GPU compositor bugs) -->
+<svg class="cursor-polygon" id="cursorPolygon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 0 L22 8.8 L13.64 13.64 L8.8 22 Z" fill="#e8ff47"/>
+</svg>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="direction-badge">Direction 1 — Obsidian</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">TYLERPROSPER.CV</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+  </ul>
+  <a href="mailto:tylerprosper@gmail.com" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-tag">San Francisco, CA · Available for opportunities</div>
+
+  <h1 class="hero-name">Tyler<br><span>Prosper</span></h1>
+
+  <p class="hero-title">CRM Expert · Revenue Operations · Data Engineering</p>
+
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <strong>10+</strong>
+      Years Experience
+    </div>
+    <div class="hero-meta-item">
+      <strong>550+</strong>
+      User Global Orgs
+    </div>
+    <div class="hero-meta-item">
+      <strong>Snowflake → VP</strong>
+      Most Recent Role
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- SKILLS STRIP -->
+<div class="skills-strip">
+  <div class="skills-track">
+    <span class="skill-tag">Salesforce</span>
+    <span class="skill-tag">Revenue Operations</span>
+    <span class="skill-tag">Sales Cloud</span>
+    <span class="skill-tag">Service Cloud</span>
+    <span class="skill-tag">Marketing Cloud</span>
+    <span class="skill-tag">Experience Cloud</span>
+    <span class="skill-tag">Advanced SQL / SOQL</span>
+    <span class="skill-tag">Snowflake</span>
+    <span class="skill-tag">Apex / LWC</span>
+    <span class="skill-tag">Visualforce</span>
+    <span class="skill-tag">Flow Builder</span>
+    <span class="skill-tag">Tableau</span>
+    <span class="skill-tag">Pardot</span>
+    <span class="skill-tag">CPQ</span>
+    <span class="skill-tag">AI / LLM Tooling</span>
+    <span class="skill-tag">Data Engineering</span>
+    <span class="skill-tag">GTM Strategy</span>
+    <span class="skill-tag">Sales Enablement</span>
+    <span class="skill-tag">B2B / B2C Marketing</span>
+    <span class="skill-tag">JavaScript / Node.js</span>
+    <span class="skill-tag">HTML / CSS</span>
+    <span class="skill-tag">Jira / Confluence</span>
+    <span class="skill-tag">Data Management</span>
+    <span class="skill-tag">Adobe Creative Suite</span>
+    <span class="skill-tag">Agile / Sprint Management</span>
+    <span class="skill-tag">Stakeholder Management</span>
+    <!-- Duplicate for seamless loop -->
+    <span class="skill-tag">Salesforce</span>
+    <span class="skill-tag">Revenue Operations</span>
+    <span class="skill-tag">Sales Cloud</span>
+    <span class="skill-tag">Service Cloud</span>
+    <span class="skill-tag">Marketing Cloud</span>
+    <span class="skill-tag">Experience Cloud</span>
+    <span class="skill-tag">Advanced SQL / SOQL</span>
+    <span class="skill-tag">Snowflake</span>
+    <span class="skill-tag">Apex / LWC</span>
+    <span class="skill-tag">Visualforce</span>
+    <span class="skill-tag">Flow Builder</span>
+    <span class="skill-tag">Tableau</span>
+    <span class="skill-tag">Pardot</span>
+    <span class="skill-tag">CPQ</span>
+    <span class="skill-tag">AI / LLM Tooling</span>
+    <span class="skill-tag">Data Engineering</span>
+    <span class="skill-tag">GTM Strategy</span>
+    <span class="skill-tag">Sales Enablement</span>
+    <span class="skill-tag">B2B / B2C Marketing</span>
+    <span class="skill-tag">JavaScript / Node.js</span>
+    <span class="skill-tag">HTML / CSS</span>
+    <span class="skill-tag">Jira / Confluence</span>
+    <span class="skill-tag">Data Management</span>
+    <span class="skill-tag">Adobe Creative Suite</span>
+    <span class="skill-tag">Agile / Sprint Management</span>
+    <span class="skill-tag">Stakeholder Management</span>
+  </div>
+</div>
+
+<div class="logo-strip">
+  <div class="logo-row">
+    <div class="logo-cell">
+      <img src="img/Snowflake%20Logo.png" alt="Snowflake logo" />
+    </div>
+    <div class="logo-cell">
+      <img src="img/Vice%20Logo.png" alt="Vice logo" />
+    </div>
+    <div class="logo-cell">
+      <img src="img/Cast%20%26%20Crew%20Logo.png" alt="Cast and Crew logo" />
+    </div>
+    <div class="logo-cell">
+      <img class="logo-img--randstad" src="img/Randstad%20Logo.png" alt="Randstad logo" />
+    </div>
+    <div class="logo-cell">
+      <img class="logo-img--ymca" src="img/YMCA%20Logo.png" alt="YMCA logo" />
+    </div>
+    <div class="logo-cell">
+      <img class="logo-img--heraldist" src="img/Heraldist%20Logo.png" alt="Heraldist logo" />
+    </div>
+    <div class="logo-cell">
+      <img class="logo-img--compass" src="img/Compass%20Logo.png" alt="Compass logo" />
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">01 · About</div>
+  <div class="about-grid reveal">
+    <div>
+      <h2 class="about-headline">Technical depth.<br><em>Operational</em><br>clarity.</h2>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Years in CRM & RevOps</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">5</div>
+          <div class="stat-label">Multi-Cloud Implementations</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">25%</div>
+          <div class="stat-label">CSAT Lift at Cast & Crew</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">SQL Queries Authored</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-body">
+      <p>I'm a Salesforce and Revenue Operations professional who operates at the intersection of CRM architecture, GTM strategy, and modern data engineering. I move fluidly between deep technical execution and high-level operational strategy.</p>
+      <p>My Salesforce expertise spans the full platform across multi-cloud implementations I've led end-to-end — from requirements through deployment — for organizations ranging from global media conglomerates to rapidly scaling SaaS environments.</p>
+      <p>Most recently at Snowflake, I architected a global account territory methodology adopted across the entire Revenue Operations vertical, enabling ingestion of tens of thousands of accounts into Salesforce and Pigment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">02 · Experience</div>
+  <div class="exp-list">
+
+    <!-- SNOWFLAKE -->
+    <div class="exp-item reveal">
+      <div class="exp-header" onclick="this.parentElement.classList.toggle('expanded'); const d=this.parentElement.querySelector('.exp-details'); d.style.maxHeight=d.style.maxHeight?null:d.scrollHeight+'px';">
+        <div>
+          <div class="exp-company">Snowflake</div>
+          <div class="exp-role" style="color: #E9FE47;">Sales Operations Analyst</div>
+          <div class="exp-location">San Francisco, CA</div>
+        </div>
+        <div class="exp-desc">Architected global account territory methodology adopted across Revenue Operations. Advanced to near-full SQL automation in Snowhouse. Administered global account ingestion across AMER, EMEA, LATAM, and APAC.
+          <div><button class="exp-toggle" type="button">Details <span class="exp-toggle-arrow">▾</span></button></div>
+        </div>
+        <div class="exp-date">Feb 2025<br>Feb 2026</div>
+      </div>
+      <div class="exp-details">
+        <div class="exp-details-inner">
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Global Account Ingestion & Data Management</div>
+            <ul class="exp-detail-list">
+              <li>Optimized the account ingestion process by architecting a streamlined data mapping and enrichment methodology adopted globally across the Revenue Operations vertical — enabling ingestion of tens of thousands of accounts into Salesforce and Pigment.</li>
+              <li>Implemented a multi-tiered account hierarchy framework with region-specific sales territory assignment logic.</li>
+              <li>Replaced a previously ad hoc, manual, non-standardized process with a custom GPU-enabled account-finder system querying third-party databases and the SFDC account database.</li>
+              <li>Advanced the methodology to near-full automation by compiling assignment mapping tables into Snowhouse, enabling the entire territory workflow to execute via advanced SQL queries.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Data Engineering, AI & Advanced Analytics</div>
+            <ul class="exp-detail-list">
+              <li>Authored and executed advanced SQL queries in Snowhouse for data analysis, account ingestion, and operational reporting.</li>
+              <li>Built a custom internal-facing LLM chatbot in Gemini — leveraging NotebookLM and additional AI tools — creating a comprehensive, queryable knowledge base for the team.</li>
+              <li>Performed large-scale account enrichment using Snowflake's GPU infrastructure and cloud-based LLM tools, D&B Hoovers, ZoomInfo, and other third-party data sources; developed Tableau dashboards for quota and territory operations.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Account Data Management & Data Quality</div>
+            <ul class="exp-detail-list">
+              <li>Managed end-to-end account data operations — ingestion, enrichment, hierarchy verification, parent-child and subsidiary relationship mapping, and data cleaning across Salesforce and Pigment.</li>
+              <li>Planned and oversaw migration of account ingestion processes from AMER and regional teams to the Data Quality team (overseas/India), coordinating cross-functional alignment.</li>
+              <li>Led live training sessions with Data Quality stakeholders across global regions; authored tailored SOP documentation for regional adoption and long-term continuity.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORMIDABLE MARKETING -->
+    <div class="exp-item reveal">
+      <div class="exp-header" onclick="this.parentElement.classList.toggle('expanded'); const d=this.parentElement.querySelector('.exp-details'); d.style.maxHeight=d.style.maxHeight?null:d.scrollHeight+'px';">
+        <div>
+          <div class="exp-company">Formidable Marketing</div>
+          <div class="exp-role">Senior CRM Analyst</div>
+          <div class="exp-location">San Francisco, CA</div>
+        </div>
+        <div class="exp-desc">Led full Salesforce Sales Cloud, Service Cloud, and Marketing Cloud rollout. Managed weekly sprint release cycles. Implemented advanced Pardot automations for lead scoring and data capture.
+          <div><button class="exp-toggle" type="button">Details <span class="exp-toggle-arrow">▾</span></button></div>
+        </div>
+        <div class="exp-date">Aug 2023<br>Aug 2024</div>
+      </div>
+      <div class="exp-details">
+        <div class="exp-details-inner">
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Salesforce Implementation & Integration</div>
+            <ul class="exp-detail-list">
+              <li>Led the successful rollout of Salesforce Sales Cloud, Service Cloud, and Marketing Cloud, ensuring smooth implementation and integration.</li>
+              <li>Managed integration of SFDC products and third-party apps including CPQ, Pardot, Jira, Confluence, Hubspot, Gong, Slack, Tableau, Einstein, Cloudingo, and Conga.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Marketing Campaign Development</div>
+            <ul class="exp-detail-list">
+              <li>Strategized with stakeholders to define campaign requirements and develop effective marketing strategies.</li>
+              <li>Implemented advanced Pardot automations for lead scoring and customer data capture.</li>
+              <li>Designed engaging email templates, customer-facing forms, web experiences, Experience Sites, and chatbots.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Configuration & Optimization</div>
+            <ul class="exp-detail-list">
+              <li>Configured and optimized Salesforce orgs for B2B marketing, Sales Operations, and customer-facing tools including apps, sites, chatbots, and live support.</li>
+              <li>Optimized Sales Cloud and Opportunity pipeline for lead generation, conversion, and increasing closed/won rates.</li>
+              <li>Developed Service Cloud with Case Management, extensive Flow automations, approvals systems, entitlements, and custom code.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Development & Release Management</div>
+            <ul class="exp-detail-list">
+              <li>Coordinated development and sprint release cycles — managing configuration, deployment of new features, optimizations, and updates.</li>
+              <li>Successfully managed weekly, bi-weekly, and monthly releases, overseeing all aspects of release/change management communication.</li>
+              <li>Maintained and updated documentation to support the user base and drive adoption of new features.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAST & CREW -->
+    <div class="exp-item reveal">
+      <div class="exp-header" onclick="this.parentElement.classList.toggle('expanded'); const d=this.parentElement.querySelector('.exp-details'); d.style.maxHeight=d.style.maxHeight?null:d.scrollHeight+'px';">
+        <div>
+          <div class="exp-company">Cast & Crew LLC</div>
+          <div class="exp-role" style="color: #E9FE47;">Senior Salesforce Administrator</div>
+          <div class="exp-location">Los Angeles, CA</div>
+        </div>
+        <div class="exp-desc">Built complex Flow automations, Apex triggers, and LWCs. Led Experience Site achieving 25% CSAT increase and 15%+ lead lift in Q1. Administered platform for ~400 global users.
+          <div><button class="exp-toggle" type="button">Details <span class="exp-toggle-arrow">▾</span></button></div>
+        </div>
+        <div class="exp-date">Dec 2021<br>Apr 2023</div>
+      </div>
+      <div class="exp-details">
+        <div class="exp-details-inner">
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Customer-Facing Web & Email Experiences</div>
+            <ul class="exp-detail-list">
+              <li>Designed and implemented customer-facing web pages, email templates, forms, and chatbots, enhancing lead data capture and customer retention.</li>
+              <li>Achieved a 25% increase in customer satisfaction within the first quarter through optimized web experiences.</li>
+              <li>Boosted lead creation rates by 15%+ within the initial quarter through effective email list management.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Custom Solutions & Feature Development</div>
+            <ul class="exp-detail-list">
+              <li>Built and optimized custom solutions including Flow automations, Apex code, Visualforce pages, and Lightning components.</li>
+              <li>Developed a complex algorithm using Apex/SOQL for prioritizing support requests, enhancing efficiency and fairness.</li>
+              <li>Created a custom Record Page using Visualforce to track and display key organizational metrics, integrated with a comprehensive reporting and alert system.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Salesforce Configuration & Integration</div>
+            <ul class="exp-detail-list">
+              <li>Strategized and executed implementation of Sales Cloud, Service Cloud, Marketing Cloud, and third-party apps (CPQ, Pardot, Jira, HubSpot, Asana, Okta, Conga, Zendesk).</li>
+              <li>Configured environments for B2B marketing, Sales Operations, and customer-facing operations with complex Flow automations and custom code.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Large-Scale Initiatives & Migrations</div>
+            <ul class="exp-detail-list">
+              <li>Addressed technical debt and migrated automations from Process Builder to Flow.</li>
+              <li>Managed data migration projects, including transitioning data storage from Salesforce to Amazon Cloud Storage.</li>
+              <li>Led the development of a customer-facing Experience Site and integrated chatbots.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Reporting, Metrics & Analytics</div>
+            <ul class="exp-detail-list">
+              <li>Built a custom Apex/Visualforce solution to parse and record daily platform metrics on a custom object — enabling trend tracking and stakeholder reporting.</li>
+              <li>Provided metrics, data analytics, and visualizations via Reports and Dashboards to inform critical business decisions.</li>
+              <li>Streamlined Reporting and consistently cleaned underlying platform data (de-duplication, correction, reconciliation) to ensure data accuracy.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERALDIST -->
+    <div class="exp-item reveal">
+      <div class="exp-header" onclick="this.parentElement.classList.toggle('expanded'); const d=this.parentElement.querySelector('.exp-details'); d.style.maxHeight=d.style.maxHeight?null:d.scrollHeight+'px';">
+        <div>
+          <div class="exp-company">Heraldist</div>
+          <div class="exp-role">Salesforce Analyst, Marketing</div>
+          <div class="exp-location">San Francisco, CA</div>
+        </div>
+        <div class="exp-desc">Post-rollout Salesforce configuration and optimization. Enhanced B2B marketing automation with Pardot. Designed customer-facing Experience Sites and landing pages.
+          <div><button class="exp-toggle" type="button">Details <span class="exp-toggle-arrow">▾</span></button></div>
+        </div>
+        <div class="exp-date">Oct 2019<br>Dec 2021</div>
+      </div>
+      <div class="exp-details">
+        <div class="exp-details-inner">
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Stakeholder Collaboration & Solutions</div>
+            <ul class="exp-detail-list">
+              <li>Partnered with business stakeholders to identify needs and recommend effective Salesforce solutions.</li>
+              <li>Coordinated post-rollout configuration and optimization of the Salesforce org.</li>
+              <li>Gathered and reviewed requirements to determine feasibility and impact of feature requests — recommending alternative or optimized solutions when necessary.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Digital Marketing & Pardot</div>
+            <ul class="exp-detail-list">
+              <li>Worked with Digital Marketing teams to enhance lead generation through email and web channels using Pardot.</li>
+              <li>Configured Salesforce and Pardot to align with business requirements, optimizing for B2B marketing automation.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Customer-Facing Solutions</div>
+            <ul class="exp-detail-list">
+              <li>Designed and developed customer-facing landing pages and Experience Sites to support brand identity and data capture.</li>
+              <li>Built automated forms and integrated data into Salesforce for streamlined lead and customer management.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Data Management & Platform Operations</div>
+            <ul class="exp-detail-list">
+              <li>Managed data integrity through cleaning, bulk inserts, and updates.</li>
+              <li>Developed and maintained comprehensive reports and dashboards to support business insights.</li>
+              <li>Oversaw user onboarding, including migration of existing processes and data.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VICE MEDIA -->
+    <div class="exp-item reveal">
+      <div class="exp-header" onclick="this.parentElement.classList.toggle('expanded'); const d=this.parentElement.querySelector('.exp-details'); d.style.maxHeight=d.style.maxHeight?null:d.scrollHeight+'px';">
+        <div>
+          <div class="exp-company">Vice Media LLC</div>
+          <div class="exp-role" style="color: #E9FE47;">Salesforce Administrator</div>
+          <div class="exp-location">New York, NY</div>
+        </div>
+        <div class="exp-desc">Sole Salesforce Administrator for 550+ global users across NA, EMEA, LATAM, APAC. Led company-wide migration from proprietary CRM. Implemented CPQ with Sales Ops and Finance.
+          <div><button class="exp-toggle" type="button">Details <span class="exp-toggle-arrow">▾</span></button></div>
+        </div>
+        <div class="exp-date">Mar 2017<br>Aug 2019</div>
+      </div>
+      <div class="exp-details">
+        <div class="exp-details-inner">
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Global Salesforce Administration</div>
+            <ul class="exp-detail-list">
+              <li>Sole Salesforce Administrator for a global user base of 550+ across North America, EMEA, LATAM, and APAC.</li>
+              <li>Supported a major international media corporation with a rapidly growing, complex Salesforce org.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">CRM Rollout & Migration</div>
+            <ul class="exp-detail-list">
+              <li>Led the company-wide transition from a proprietary, Excel-based CRM to Salesforce.</li>
+              <li>Migrated processes and data to a Salesforce instance tailored to the diverse needs of a global media conglomerate.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Sales Cloud & CPQ Implementation</div>
+            <ul class="exp-detail-list">
+              <li>Focused on sales, lead generation, and Opportunity pipeline in Sales Cloud.</li>
+              <li>Collaborated with Sales Ops and Finance to implement and configure Salesforce CPQ, enabling dynamic pricing and sales flexibility.</li>
+              <li>Implemented a robust approval system ensuring Sales/Sales Ops flexibility without sacrificing accountability.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Cross-Departmental Coordination</div>
+            <ul class="exp-detail-list">
+              <li>Worked closely with stakeholders across Sales Ops, Finance, Accounting, IT, HR, Marketing, S&P, Legal, etc. to coordinate, strategize, test, and deploy features.</li>
+              <li>Managed large-scale integrations with third-party apps including Netsuite and Workday.</li>
+              <li>Single-handedly managed the Salesforce Support Helpdesk for the global, company-wide user base.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Documentation & Compliance</div>
+            <ul class="exp-detail-list">
+              <li>Authored and maintained comprehensive documentation and training materials.</li>
+              <li>Developed an internal website with a detailed library of Salesforce-related documentation for user access.</li>
+              <li>Managed sprint release lifecycle from feature development to deployment.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEB DEVELOPMENT / IT CONSULTING -->
+    <div class="exp-item reveal">
+      <div class="exp-header" onclick="this.parentElement.classList.toggle('expanded'); const d=this.parentElement.querySelector('.exp-details'); d.style.maxHeight=d.style.maxHeight?null:d.scrollHeight+'px';">
+        <div>
+          <div class="exp-company">Web Development | IT Consulting</div>
+          <div class="exp-role">Web Developer | IT Consultant</div>
+          <div class="exp-location">New York, NY</div>
+        </div>
+        <div class="exp-desc">Full-stack development with JavaScript (Node.js, AngularJS). Salesforce administration and data migration. Graphic and media design using Adobe Creative Suite.
+          <div><button class="exp-toggle" type="button">Details <span class="exp-toggle-arrow">▾</span></button></div>
+        </div>
+        <div class="exp-date">Jan 2015<br>Mar 2017</div>
+      </div>
+      <div class="exp-details">
+        <div class="exp-details-inner">
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Full-Stack Development</div>
+            <ul class="exp-detail-list">
+              <li>Performed site configurations, module updates, bug fixes, and both front-end and back-end development across multiple projects.</li>
+              <li>Utilized JavaScript (Node.js, AngularJS) for client-side and server-side development, supporting clients in digital marketing and real estate sectors.</li>
+              <li>Set up, configured, and managed cloud servers for commercial databases.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Salesforce Administration</div>
+            <ul class="exp-detail-list">
+              <li>Administered and developed Salesforce.com, including data migration from third-party servers.</li>
+              <li>Configured Sales Cloud, managed initial team onboarding and user provisioning, and implemented automations and validations.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Graphic & Media Design</div>
+            <ul class="exp-detail-list">
+              <li>Designed and prepared graphic, video, photo, and media content for web publishing.</li>
+              <li>Developed logos, graphics, brand themes, and style guides.</li>
+              <li>Proficient in Adobe Creative Suite (Photoshop, Illustrator, After Effects).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- YMCA -->
+    <div class="exp-item reveal">
+      <div class="exp-header" onclick="this.parentElement.classList.toggle('expanded'); const d=this.parentElement.querySelector('.exp-details'); d.style.maxHeight=d.style.maxHeight?null:d.scrollHeight+'px';">
+        <div>
+          <div class="exp-company">YMCA of San Francisco</div>
+          <div class="exp-role">Membership Services</div>
+          <div class="exp-location">San Francisco, CA</div>
+        </div>
+        <div class="exp-desc">Managed membership sales, lead generation and conversion. Maintained customer data integrity and billing processes.
+          <div><button class="exp-toggle" type="button">Details <span class="exp-toggle-arrow">▾</span></button></div>
+        </div>
+        <div class="exp-date">Jun 2008<br>Oct 2010</div>
+      </div>
+      <div class="exp-details">
+        <div class="exp-details-inner">
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Sales & Lead Generation</div>
+            <ul class="exp-detail-list">
+              <li>Closed multiple sales daily, consistently achieving and exceeding sales targets.</li>
+              <li>Interfaced with potential customers to generate and follow up on leads; successfully converted leads into opportunities.</li>
+              <li>Fostered strong relationships with members to enhance retention and satisfaction.</li>
+            </ul>
+          </div>
+          <div class="exp-detail-group">
+            <div class="exp-detail-heading">Billing & Data Management</div>
+            <ul class="exp-detail-list">
+              <li>Set up and managed billing processes, ensuring accurate and timely collection of customer information.</li>
+              <li>Maintained and updated customer data and ensured data integrity.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Tyler Prosper · tylerprosper.cv</div>
+  <ul class="footer-links">
+    <li><a href="mailto:tylerprosper@gmail.com">Email</a></li>
+    <li><a href="https://linkedin.com/in/tylerrprosper" target="_blank">LinkedIn</a></li>
+    <li><a href="#">Resume</a></li>
+  </ul>
+</footer>
+
+<script>
+  // ── DOM CURSOR ─────────────────────────────────────────────────────────────
+  // Four-layer defense against Chrome macOS compositor cursor flicker:
+  //   1. Runtime-generated 32×32 transparent PNG cursor (guaranteed valid)
+  //   2. Injected as <style> with maximum specificity
+  //   3. DOM SVG polygon for the visible custom cursor
+  //   4. JS mousemove re-applies cursor:none on the hovered element
+
+  // Layer 1 & 2: Generate transparent cursor at runtime & inject stylesheet
+  ;(function hideCursor() {
+    const c = document.createElement('canvas');
+    c.width = 32; c.height = 32;
+    c.getContext('2d').clearRect(0, 0, 32, 32);
+    const url = c.toDataURL('image/png');
+    const style = document.createElement('style');
+    style.textContent =
+      `html,body,*,*::before,*::after{cursor:url(${url}) 0 0,none!important}`;
+    document.head.appendChild(style);
+  })();
+
+  // Layer 3: DOM-based SVG polygon cursor
+  const poly = document.getElementById('cursorPolygon');
+  const polyPath = poly.querySelector('path');
+  const ring = document.getElementById('cursorRing');
+  let mx = -200, my = -200, rx = -200, ry = -200;
+  let lastTarget = null;
+
+  // Layer 4: Move polygon + force cursor:none on hovered element every frame
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    poly.style.transform = `translate(${mx}px, ${my}px)`;
+
+    // Belt-and-suspenders: directly set cursor:none on whatever element is
+    // under the pointer, so even if the stylesheet rule gets dropped by
+    // the compositor, this inline style persists.
+    const target = e.target;
+    if (target !== lastTarget) {
+      if (lastTarget) lastTarget.style.removeProperty('cursor');
+      target.style.setProperty('cursor', 'none', 'important');
+      lastTarget = target;
+    }
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Cursor turns black when over yellow nav-link backgrounds
+  document.querySelectorAll('.nav-links a').forEach(el => {
+    el.addEventListener('mouseenter', () => polyPath.setAttribute('fill', '#000000'));
+    el.addEventListener('mouseleave', () => polyPath.setAttribute('fill', '#e8ff47'));
+  });
+
+  // Ring expands on interactive elements
+  document.querySelectorAll('a, button, .exp-header, .exp-toggle, .stat').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '41px';
+      ring.style.height = '41px';
+      ring.style.borderColor = 'rgba(232,255,71,0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '26px';
+      ring.style.height = '26px';
+      ring.style.borderColor = 'rgba(232,255,71,0.4)';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
