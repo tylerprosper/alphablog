@@ -1538,6 +1538,16 @@
   }, { threshold: 0.1 });
 
   reveals.forEach(el => observer.observe(el));
+
+  // Align section border-top with nav border-bottom on anchor scroll
+  const navEl = document.querySelector('nav');
+  if (navEl) {
+    const setPadding = () => {
+      document.documentElement.style.scrollPaddingTop = (navEl.offsetHeight - 1) + 'px';
+    };
+    setPadding();
+    window.addEventListener('resize', setPadding);
+  }
 </script>
 </body>
 </html>
